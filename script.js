@@ -10,23 +10,49 @@ const iniciarOuPausarBt = document.querySelector('.app__card-primary-button span
 const imagemStarPauseBt = document.querySelector('.app__card-primary-butto-icon')
 const musicaFocoInput = document.querySelector('#alternar-musica')
 const tempoNaTela = document.querySelector('#timer')
-const musica = new Audio('/sons/luna-rise-part-one.mp3')
 const audioPlay = new Audio('/sons/play.wav');
 const audioPausa = new Audio('/sons/pause.mp3');
 const audioTempoFinalizado = new Audio('./sons/beep.mp3')
-
+const audioFiles = [
+    '/sons/musica-1.mp3',
+    '/sons/musica-2.mp3',
+    '/sons/musica-3.mp3',
+    '/sons/musica-4.mp3',
+    '/sons/musica-5.mp3'
+];
+let musica = new Audio ();
 let tempoDecorridoEmSegundos = 1500
 let intervaloId = null
-
 musica.loop = true
 
+function playRandomAudio() {
+    const randomIndex = Math.floor(Math.random() * audioFiles.length);
+    const randomAudio = audioFiles[randomIndex];
+    musica.src = randomAudio; 
+    musica.play();
+}
+
 musicaFocoInput.addEventListener('change', () => {
-    if(musica.paused) {
-        musica.play()
+    if (musica.paused) {
+        playRandomAudio();
     } else {
-        musica.pause()
+        musica.pause();
     }
-})
+});
+
+musica.addEventListener('ended', () => {
+    playRandomAudio();
+});
+
+
+
+// musicaFocoInput.addEventListener('change', () => {
+//    if(musica.paused) {
+//        playRandomAudio()
+//    } else {
+//        musica.pause()
+//    }
+// })
 
 focoBt.addEventListener('click', () => {
     tempoDecorridoEmSegundos = 1500
@@ -117,3 +143,4 @@ function monstrarTempo(){
 }
 
 monstrarTempo()
+
